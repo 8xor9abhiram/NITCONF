@@ -1,0 +1,306 @@
+openapi: "3.0.1"
+info:
+  title: "Reviewer Module 2"
+  description: "This repository provides the implementation of the primary module for the NITCONF conferencing website, specifically the Reviewer Module. This module serves as the primary interface for users who agree to analyze, research, and submit reviews for assigned research papers."
+  license:
+    name: "Apache 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+  version: '1.2'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/AvinashRavanam/NITCONF/1.2
+  - url: "http://localhost:8080"
+    description: "Generated server url"
+paths:
+  /api/review:
+    get:
+      tags:
+        - "Paper Review"
+      summary: "Search for review"
+      description: "Find the requested review and display it."
+      operationId: "searchReview"
+      parameters:
+        - name: "action"
+          in: "query"
+          description: "The action to perform. Valid actions are 'view' or 'clear'."
+          required: true
+          schema:
+            type: "string"
+          example: "view"
+        - name: "id"
+          in: "query"
+          description: "The ID of the paper."
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+          example: 1
+        - name: "username"
+          in: "query"
+          description: "The username of the reviewer."
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+    post:
+      tags:
+        - "Paper Review"
+      summary: "Save Review"
+      description: "Save the current progress in review."
+      operationId: "saveReview"
+      parameters:
+        - name: "action"
+          in: "query"
+          description: "The action to perform. Valid actions are 'update' or 'save'."
+          required: true
+          schema:
+            type: "string"
+          example: "update"
+        - name: "id"
+          in: "query"
+          description: "The ID of the paper."
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+          example: 1
+        - name: "username"
+          in: "query"
+          description: "The username of the reviewer."
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewForm"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+  /api/to-review:
+    get:
+      tags:
+        - "Papers Yet to Review"
+      summary: "Find Papers"
+      description: "Search for papers assigned to a user which are yet to be reviewed and display if present."
+      operationId: "findPapers"
+      parameters:
+        - name: "username"
+          in: "query"
+          description: "The username of the user for whom papers are to be searched."
+          required: true
+          schema:
+            type: "string"
+          example: "jonny"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+  /api/submissions:
+    get:
+      tags:
+        - "Drafts and Submissions"
+      summary: "List submissions"
+      description: "Display all submissions made by the provided user from the past up to the present."
+      operationId: "listSubmissions"
+      parameters:
+        - name: "username"
+          in: "query"
+          description: "The username of the user to retrieve submissions for."
+          required: true
+          schema:
+            type: "string"
+          example: "jonny"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Review"
+  /api/edit-profile:
+    get:
+      tags:
+        - "Navigation and Profile"
+      summary: "Find user"
+      description: "Search for a user and display their details including bio, tags, contact, etc."
+      operationId: "findUser"
+      parameters:
+        - name: "username"
+          in: "query"
+          description: "The username of the user to retrieve details for."
+          required: true
+          schema:
+            type: "string"
+          example: "jonny"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /api/edit-profile/all-tags:
+    get:
+      tags:
+        - "Navigation and Profile"
+      summary: "Display tags"
+      description: "Show all tags currently available."
+      operationId: "displayTags"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+  /api/draft:
+    get:
+      tags:
+        - "Drafts and Submissions"
+      summary: "Find drafts"
+      description: "Retrieve drafts associated with the provided username."
+      operationId: "drafts"
+      parameters:
+        - name: "username"
+          in: "query"
+          description: "The username for which to retrieve drafts."
+          required: true
+          schema:
+            type: "string"
+          example: "jonny"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+components:
+  schemas:
+    ReviewForm:
+      type: "object"
+      properties:
+        technical:
+          type: "integer"
+          format: "int32"
+        significance:
+          type: "integer"
+          format: "int32"
+        originality:
+          type: "integer"
+          format: "int32"
+        appropriate:
+          type: "integer"
+          format: "int32"
+        organization:
+          type: "integer"
+          format: "int32"
+        style:
+          type: "integer"
+          format: "int32"
+        refeersConfidence:
+          type: "integer"
+          format: "int32"
+        overall:
+          type: "integer"
+          format: "int32"
+        comment:
+          type: "string"
+    Review:
+      type: "object"
+      properties:
+        id:
+          $ref: "#/components/schemas/ReviewKey"
+        technical:
+          type: "integer"
+          format: "int32"
+        significance:
+          type: "integer"
+          format: "int32"
+        originality:
+          type: "integer"
+          format: "int32"
+        appropriate:
+          type: "integer"
+          format: "int32"
+        organization:
+          type: "integer"
+          format: "int32"
+        style:
+          type: "integer"
+          format: "int32"
+        refeersConfidence:
+          type: "integer"
+          format: "int32"
+        overall:
+          type: "integer"
+          format: "int32"
+        comment:
+          type: "string"
+        reviewerStatus:
+          type: "string"
+        reviewStatus:
+          type: "string"
+    ReviewKey:
+      type: "object"
+    GrantedAuthority:
+      type: "object"
+      properties:
+        authority:
+          type: "string"
+    Tags:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        id:
+          type: "integer"
+          format: "int64"
+    User:
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        password:
+          type: "string"
+        name:
+          type: "string"
+        contactno:
+          type: "string"
+        bio:
+          type: "string"
+        tags:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Tags"
+        enabled:
+          type: "boolean"
+        authorities:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/GrantedAuthority"
+        accountNonExpired:
+          type: "boolean"
+        accountNonLocked:
+          type: "boolean"
+        credentialsNonExpired:
+          type: "boolean"

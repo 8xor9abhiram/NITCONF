@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- CSS File -->
+    <link id="styles" rel="stylesheet" href="/css/styles.css" />
+    <title>Review</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body>
+      <header class="header">
+            <div class="logo left">
+             <!-- <i id="menu" class="material-icons">menu</i>  -->
+             <!-- <img src="https://www.freecodecamp.org/news/content/images/2022/01/yt-logo.png"> -->
+             <img id="logoImage" src=" " alt=" " width="25" heigth="25" />
+              <a class="navbar-brand text-light" id="dashboard" ><h4><strong>NITCONF</strong></h4></a>
+            </div>
+            
+            <div class="search center">
+              <form action="">
+                <input type="text" placeholder="Search" />
+                <button><i class="material-icons">search</i></button>
+              </form>  
+            </div>
+            
+            <div class="icons right">
+                <a href="/notifications">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-bell" viewBox="0 0 16 16">
+					  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+					</svg>
+                </a>
+                
+                <a id="profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
+					  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+					  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+					</svg>
+                </a>
+                
+                
+                <!-- <div class="dropdown">  
+                    <button class="dropbtn"> 
+                        <i class="material-icons display-this">account_circle</i>
+                    </button>  
+                    <div class="dropdown-content">  
+                    <a href="https://www.javatpoint.com/html-tutorial"> Html </a>  
+                    <a href="https://www.javatpoint.com/css-tutorial"> CSS </a>  
+                    <a href="https://www.javatpoint.com/javascript-tutorial"> JavaScript </a>  
+                    </div>  
+                </div>  -->
+
+
+               <!-- <div class="btn-group mx-3 my-3">
+                    <button class="btn btn-sm" type="button">
+                        <i class="material-icons display-this">account_circle</i>
+                    </button>
+                    <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                      <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                          
+                          <li><a class="dropdown-item" th:href="@{/review(action=view ,id=${review.paper.id})}">continue review</a></li>
+                          <li><a class="dropdown-item" th:href="@{/review(action=clear ,id=${review.paper.id})}">clear review</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <div class="text-center">
+                          <li> <button type="button" class="btn btn-outline-danger">decline to review</button> </li>
+                          </div>
+                     </ul>
+                </div>-->
+            </div>
+      </header>
+      <main>
+            <div class="side-bar">
+                <div class="nav">
+                    <a id="side-review-center" class="nav-link text-dark font-italic">
+                        <strong>Review Center</strong>
+                    </a>
+                    <a  id="side-drafts" class="nav-link text-dark">
+                        <strong>Drafts</strong>
+                    </a>
+                    <a id="side-submissions" class="nav-link text-dark">
+                        <strong>Submissions</strong>
+                    </a>
+                </div>
+                <hr>
+              </div>
+              
+            <div class="content">
+				   <div class="text-center container mb-3">
+						<p class="h2 fw-bolder"> Review Form</p>
+			       </div>
+			   
+			       <br>
+				
+				<div class="d-flex justify-content-center">
+					
+                    <div class="container w-75 ">
+                        <div class="row">
+                            <div class="col-md-8 border-right-0  bg-white bg-gradient">
+                               <div class="m-2">
+                                <strong><span class="h6 d-inline">Paper Id:</span></strong> <span class="fw-light" id="paperId"></span><br>
+                               </div>
+                               <div class="m-2 ">
+                                <strong><span class="h6 ">Paper Name:</span></strong> <span class="fw-light" id="papername" ></span>
+                               </div>
+                               
+                            </div>
+                            <div class="col-md-4 bg-white bg-gradient">
+                                <div class="m-2">
+                                    <span class="h6 d-inline">Reviewer:</span> <span id="reviewername"></span><br>
+                                </div>
+                                <div class="m-2">
+                                    <span class="h6 d-inline">Status:</span> <span id="reviewStatus"></span><br>
+                                </div>
+                                <div class="m-2">
+                                    <span class="h6 d-inline">Deadline:</span> <span id="deadline"></span><br>
+                                </div>
+                                <div class="m-2 d-none" id="submissionTimeDiv">
+                                    <span class="h6 d-inline" >Submitted on:</span> <span id="submissionTime"></span><br>
+                                </div>
+                            </div>
+                         </div>
+                          
+                         
+                        <br><br>
+                        
+                     <form method="post" class="form">
+                        <div class="row">
+							<div class="col-md-8 border bg-light bg-gradient">
+								<p class="m-2 fw-bold">Evalution Category</p>
+							</div>
+							<div class="col-md-4 border bg-light bg-gradient">
+								<p class="m-2 fw-bold">Enter your Score (out of 10)</p>
+							</div>
+						</div>
+						
+						
+						
+						<div class="row">
+							<div class="col-md-8  border bg-light bg-gradient">
+								<p class="m-2 fw-normal">Technical Content and Accuracy</p>
+							</div>
+							
+							<div class="col-md-4 border bg-light bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" name="technical" id="technical" min=0 max=10 type="number">
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-8  border bg-white bg-gradient">
+								<p class="m-2 fw-normal">Significance od the Work</p>
+							</div>
+							
+							<div class="col-md-4 border bg-white bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" name="significance" id="significance" min=0 max=10  type="number">
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-8  border bg-light bg-gradient">
+								<p class="m-2 fw-normal">Appropriate Title, Introduction and Conclusion</p>
+							</div>
+							
+							<div class="col-md-4 border bg-light bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" min=0 max=10 name="appropriate" id="appropriate" type="number" >
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-8  border bg-white bg-gradient">
+								<p class="m-2 fw-normal">Overall Organization</p>
+							</div>
+							
+							<div class="col-md-4 border bg-white bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" min=0 max=10 name="organization" id="organization" type="number"> 
+								</div>
+							</div>
+							
+						</div>
+						
+						
+						
+						<div class="row">
+							<div class="col-md-8  border bg-light bg-gradient">
+								<p class="m-2 fw-normal">Style and Clarity of Paper</p>
+							</div>
+							
+							<div class="col-md-4 border bg-light bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" min=0 max=10  name="style" id="style" type="number">
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-8  border bg-white bg-gradient">
+								<p class="m-2 fw-normal">Originality of Content</p>
+							</div>
+							
+							<div class="col-md-4 border bg-white bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" min=0 max=10 name="originality" id="originality" type="number">
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-8  border bg-light bg-gradient">
+								<p class="m-2 fw-normal">Referee's Confidence in Paper's Subject</p>
+							</div>
+							
+							<div class="col-md-4 border bg-light bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" min=0 max=10 name="refeersConfidence" id="refeersConfidence" type="number">
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-8  border bg-white bg-gradient">
+								<p class="m-2 fw-normal">Overall Recommendation</p>
+							</div>
+							
+							<div class="col-md-4 border bg-white bg-gradient">
+								<div class="d-flex justify-content-center">
+								   <input class="form-control border-0  bg-light bg-gradient" min=0 max=10  name="overall" id="overall" type="number">
+								</div>
+							</div>
+							
+						</div>
+						
+						<br>
+						<hr>
+						
+						<h4>Comments and Recommendations</h4>
+						 <textarea class="form-control" rows=8  name="comment" id="comment" placeholder="Enter you Comments here"></textarea>
+						 <div class="container d-flex flex-row-reverse">
+							
+					     <!-- <input class="btn btn-success m-3"  name="method" type="submit" value="Submit"> 
+					     <input class="btn btn-secondary m-3" name="method" type="submit" value="Save to Draft">-->
+					     
+					     
+					     <button class="btn btn-success m-3"  id="submission" onclick="toSubmissions()">Submit</button>
+					     <button class="btn btn-secondary m-3"  id="drafts" onclick="toDrafts()">Save to Drafts</button>
+					     <button class="btn btn-secondary m-3 d-none"  id="editSubmission" onclick="toeditSubmission()">ReSubmit</button>
+					     <button class="btn btn-danger m-3" id="cancel" onclick="tocancel()">Cancel</button></a>
+					     
+					 </div>
+						 
+					 </form>	
+               
+                    
+                    
+                
+                   </div>
+                   
+                </div>
+            </div>
+          </div>
+        </div>        
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous">
+    </script>
+    
+    <script>
+		
+
+		
+		//change layout according to review status
+		
+		//change date format
+		
+		const token = localStorage.getItem("token")
+		const searchParams = new URLSearchParams(window.location.search)
+		const paperId = searchParams.get("paperId")
+		
+		
+		
+				 function getFormatDate(date)
+		   {
+			   return date.toDateString();
+			   
+		   }
+		   
+		   function getFormatTime(date)
+		   {
+			   let formatTime = "";
+			   if(date.getHours() == "0")
+			   {
+				   formatTime += "00:"
+			   }
+			   else
+			   {
+				   formatTime += date.getHours() + ":"
+			   }
+			   
+			   if(date.getMinutes() == "0")
+			   {
+				   formatTime += "00:"
+			   }
+			   else
+			   {
+				   formatTime += date.getMinutes() + ":"
+			   }
+			   
+			   if(date.getSeconds() == "0")
+			   {
+				   formatTime += "00"
+			   }
+			   else
+			   {
+				   formatTime += date.getSeconds()
+			   }
+			   
+			   return formatTime
+			   
+			   
+		   }
+		
+		function setValue(id,value)
+		{
+			if(value !== null)
+			 document.getElementById(id).setAttribute("value",value);
+		}
+		
+		function setReviewDetails(review,paper)		
+		{
+			
+			document.getElementById("paperId").textContent = paper.id;
+		    document.getElementById("papername").textContent= paper.name;
+		    document.getElementById("reviewername").textContent = review.id.userId;
+
+		    
+		    setValue("technical",review.technical)
+		    setValue("significance",review.significance)
+		    setValue("originality",review.originality)
+		    setValue("appropriate",review.appropriate)
+		    setValue("organization",review.organization)
+		    setValue("style",review.style)
+		    setValue("refeersConfidence",review.refeersConfidence)
+		    setValue("overall",review.overall)
+		    
+		    if(review.comment !== null)
+		      document.getElementById("comment").textContent = review.comment
+				   
+				   
+		}
+		
+		async function getDataFromURL(url)
+		{
+			  const data = await fetch(url, 
+			   {
+				   method : `GET`,
+				   headers: {
+						 'Content-Type' : `application/json`,
+						 'Authorization': `Bearer ${token}`
+				   }
+			    }) 
+			    .then(res => res.json())    //return res.json  which is json
+				.then(data =>{
+					  
+					  return data
+				      
+				 }).catch((error) => {
+					 
+					  console.log(error);   // error handling
+			     });
+			     
+			  return data;
+			     
+		 }
+		 
+		 function modifyOnReviewStatus(review)
+		 {
+			 document.getElementById("deadline").textContent = getFormatDate(new Date(review.deadline)) + "  " + getFormatTime(new Date(review.deadline));
+		     
+		     console.log(review.excuse)
+		     const excuse = new Date(review.excuse)
+		     const currentDate = new Date()
+		     
+		     if(excuse.getTime() < currentDate.getTime())
+		     {
+				 document.getElementById("submission").disabled = true
+				 document.getElementById("editSubmission").disabled = true
+			 }
+			 
+			 if(review.reviewStatus == 'submit')
+			 {
+				document.getElementById("reviewStatus").textContent = 'submitted';
+				//document.getElementById("reviewStatus").classList.add("text-success")
+				
+				const submissionTime =  document.getElementById("submissionTime")
+				submissionTime.textContent = getFormatDate(new Date(review.submissionTime)) + "  " + getFormatTime(new Date(review.submissionTime));
+				document.getElementById("submissionTimeDiv").classList.remove("d-none")
+				
+				
+				
+				document.getElementById("submission").classList.add("d-none")
+		        document.getElementById("drafts").classList.add("d-none")
+		        document.getElementById("editSubmission").classList.remove("d-none")
+				
+				  
+			 }
+			 else
+			 {
+				 document.getElementById("reviewStatus").textContent = 'pending';
+			 }
+			 
+		 }
+		 
+		 
+		 let review;
+		 let paper;
+		 async function displayReviewDetails()
+		 {
+			 review = await getDataFromURL(`http://localhost:8080/api/review/get?paperId=${paperId}`)
+			 paper = await getDataFromURL(`http://localhost:8080/api/get-paper?paperId=${paperId}`)
+			 modifyOnReviewStatus(review)
+             setReviewDetails(review,paper)
+		 }
+		 
+		 displayReviewDetails()
+		 
+		  
+		  
+		 function toDrafts()
+		 {
+			 event.preventDefault()
+			 const form = document.querySelector('.form');
+			 const formData = new FormData(form);
+			 const data = Object.fromEntries(formData)
+			 
+			 console.log(data)
+			 
+			 fetch(`http://localhost:8080/api/review/save?paperId=${paperId}`, {
+			    method: 'POST',
+			    headers: {
+			      'Content-Type' : 'application/json',
+			      'Authorization' : `Bearer ${token}`,
+			    },
+			    body: JSON.stringify(data) // Send data as JSON string
+			  })
+			  .then(res => res.json()) // Handle response (assuming JSON)
+			  .then(data => {
+				  
+				   const url = `http://localhost:8080/api/drafts?token=${token}`
+				   window.location.href = url
+			       // Handle successful data submission
+			  })
+			  .catch(error => {
+			    console.error("Error sending data:", error);
+			  });
+			
+			
+		 }
+		 
+		 function toSubmissions()
+		 {
+			 event.preventDefault()
+			 const form = document.querySelector('.form');
+			 const formData = new FormData(form);
+			 const data = Object.fromEntries(formData)
+			 
+			 console.log(data)
+			 
+			 fetch(`http://localhost:8080/api/review/submit?paperId=${paperId}`, {
+			    method: 'POST',
+			    headers: {
+			      'Content-Type' : 'application/json',
+			      'Authorization' : `Bearer ${token}`,
+			    },
+			    body: JSON.stringify(data) // Send data as JSON string
+			  })
+			  .then(res => res.json()) // Handle response (assuming JSON)
+			  .then(data => {
+				  
+				   const url = `http://localhost:8080/api/submissions?token=${token}`
+				   window.location.href = url
+			       // Handle successful data submission
+			  })
+			  .catch(error => {
+			    console.error("Error sending data:", error);
+			  });
+		 }
+		 
+		 
+		 function toeditSubmission()
+		 {
+			  event.preventDefault()
+			 const form = document.querySelector('.form');
+			 const formData = new FormData(form);
+			 const data = Object.fromEntries(formData)
+			 
+			 console.log(data)
+			 
+			 fetch(`http://localhost:8080/api/edit-submission?paperId=${paperId}`, {
+			    method: 'POST',
+			    headers: {
+			      'Content-Type' : 'application/json',
+			      'Authorization' : `Bearer ${token}`,
+			    },
+			    body: JSON.stringify(data) // Send data as JSON string
+			  })
+			  .then(res => res.json()) // Handle response (assuming JSON)
+			  .then(data => {
+				  
+				   const url = `http://localhost:8080/api/submissions?token=${token}`
+				   window.location.href = url
+			       // Handle successful data submission
+			  })
+			  .catch(error => {
+			    console.error("Error sending data:", error);
+			  });
+			 
+		 }
+		 
+		 function tocancel()
+		 {
+			 event.preventDefault()
+			 window.location.href=`/api/review-center?token=${token}`
+		 }
+		 
+		 
+
+		 document.getElementById("profile").setAttribute("href", `/api/profile?token=${token}`);
+		 document.getElementById("styles").setAttribute("href", `/css/styles.css?token=${token}`);
+		 document.getElementById("side-review-center").setAttribute("href", `/api/review-center?token=${token}`);
+		 document.getElementById("side-drafts").setAttribute("href", `/api/drafts?token=${token}`);
+		 document.getElementById("side-submissions").setAttribute("href", `/api/submissions?token=${token}`);
+		 document.getElementById("dashboard").setAttribute("href", `/api/dashboard?token=${token}`);
+         document.getElementById("logoImage").setAttribute("src", `/images/logoww.png?token=${token}`);
+		 document.getElementById("cancel").setAttribute("href", `/api/review-center?token=${token}`)
+		 
+
+		 
+		 
+			  
+		 
+		 
+		 
+		
+	</script>
+
+</body>
+
+</html>

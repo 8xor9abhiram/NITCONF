@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- CSS File -->
+    <link id="styles" rel="stylesheet" href="/css/styles.css" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+	<body>
+		
+		<header class="header">
+            <div class="logo left">
+             <img id="logoImage" src=" " alt=" " width="25" heigth="25" />
+             <a class="navbar-brand text-light" id="dashboard" ><h4><strong>NITCONF</strong></h4></a>
+            </div>
+      </header>
+		
+      <div class="container w-25 my-5 bg-light ">
+			
+			<br>
+		   
+			<div class="mb-3">
+				<h3 class="font-weight-normal">Login</h3>
+			</div>
+        
+        <div class="row"> 
+			<div class="col-md-10">
+		    <form method="post"  action="/api/dasboard">
+				
+				<label class="form-label" for="email">Username</label>
+				<input class="form-control" type="text" name="email" placeholder="Enter your username">
+				<br>
+				<label class="form-label" for="password">Password</label>
+				<input class="form-control" type="password" name="password" placeholder="Enter your Password">
+				<br>
+				<p class="text-danger d-none" id="invalid">Invalid Credentials</p>
+		 	    <button class="btn btn-primary" type="submit" >Login</button>  
+			    <br><br>
+			</form>
+			</div>
+		</div>
+	      
+		</div>
+		
+		<script>
+			    const loginForm = document.querySelector('form');
+			    loginForm.addEventListener('submit' , event => {
+				event.preventDefault();
+				const formData = new FormData(loginForm);
+				const data =  Object.fromEntries(formData);
+				 
+			    fetch('http://localhost:8080/api/login',{
+					 method : 'POST',
+					 headers: {
+						 'Content-Type' : 'application/json'
+					 },
+					 body: JSON.stringify(data)
+					 
+				 }).then(res => res.json())
+				   .then(data =>{
+					   
+					  const token = data.token;
+					  localStorage.setItem("token", token)
+					  const url = `http://localhost:8080/api/dashboard?token=${token}`;
+					  console.log(url)
+					   window.location.href = url;
+				      // window.location.assign("dashboard.html");
+				     })
+					 .catch((error) => {
+						  var element = document.getElementById("invalid");
+			              element.classList.remove("d-none");
+					      console.log(error)
+			
+						});
+			          //token needed here store it in http header
+			        })
+				   
+				   
+				   
+				   /*function login()
+				   {
+					  console.log("hello")
+					 const element =  document.getElementById("email")
+					 const username = element.value
+					  localStorage.setItem("usename",username) 
+				   }*/
+				   
+			
+ 
+		</script>
+		<script>
+			const token = localStorage.getItem("token")
+			document.getElementById("styles").setAttribute("href", `/css/styles.css?token=${token}`);
+			document.getElementById("logoImage").setAttribute("src", `/images/logoww.png?token=${token}`);
+			console.log(token)
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		
+	</body>
+</html>

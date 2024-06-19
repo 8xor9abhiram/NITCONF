@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- CSS File -->
+    <link id="styles" rel="stylesheet" href="/css/styles.css" />
+    <title>Review Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body>
+      <header class="header">
+            <div class="logo left">
+             <!-- <i id="menu" class="material-icons">menu</i>  -->
+             <!-- <img src="https://www.freecodecamp.org/news/content/images/2022/01/yt-logo.png"> -->
+              <img id="logoImage" src=" " alt=" " width="25" heigth="25" />
+             <a class="navbar-brand text-light" id="dashboard" ><h4><strong>NITCONF</strong></h4></a>
+            </div>
+            
+            <div class="search center">
+              <form action="">
+                <input type="text" placeholder="Search" />
+                <button><i class="material-icons">search</i></button>
+              </form>  
+            </div>
+            
+            <div class="icons right">
+                <a href="/notifications">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-bell" viewBox="0 0 16 16">
+					  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+					</svg>
+                </a>
+                
+                <a id="profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
+					  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+					  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+					</svg>
+                </a>
+                
+                
+                <!-- <div class="dropdown">  
+                    <button class="dropbtn"> 
+                        <i class="material-icons display-this">account_circle</i>
+                    </button>  
+                    <div class="dropdown-content">  
+                    <a href="https://www.javatpoint.com/html-tutorial"> Html </a>  
+                    <a href="https://www.javatpoint.com/css-tutorial"> CSS </a>  
+                    <a href="https://www.javatpoint.com/javascript-tutorial"> JavaScript </a>  
+                    </div>  
+                </div>  -->
+
+
+               <!-- <div class="btn-group mx-3 my-3">
+                    <button class="btn btn-sm" type="button">
+                        <i class="material-icons display-this">account_circle</i>
+                    </button>
+                    <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                      <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                          
+                          <li><a class="dropdown-item" th:href="@{/review(action=view ,id=${review.paper.id})}">continue review</a></li>
+                          <li><a class="dropdown-item" th:href="@{/review(action=clear ,id=${review.paper.id})}">clear review</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <div class="text-center">
+                          <li> <button type="button" class="btn btn-outline-danger">decline to review</button> </li>
+                          </div>
+                     </ul>
+                </div>-->
+            </div>
+      </header>
+      <main>
+		  
+            <div class="side-bar">
+                <div class="nav">
+                    <a id="side-review-center" class="nav-link text-dark font-italic">
+                        <strong>Review Center</strong>
+                    </a>
+                    <a  id="side-drafts" class="nav-link text-dark">
+                        <strong>Drafts</strong>
+                    </a>
+                    <a id="side-submissions" class="nav-link text-dark">
+                        <strong>Submissions</strong>
+                    </a>
+                </div>
+                <hr>
+              </div>
+                    <div class="content">
+                            <div class="container text-center">
+							    <p class="h2 my-4 font-weight-normal">Review Center</p>
+							</div>
+
+							
+							 <div class="container justify-content-center" >
+							    <div class="container-md w-60" id="table">
+							        <div class="row bg-light bg-gradient">
+							            <div class="col-md-1 border text-center  py-2">
+							                <p class="h6 font-weight-normal">Paper id</p>
+							            </div>
+							            <div class="col-md-6 border text-center  py-2">
+							                <p class="h6 font-weight-normal">Name</p>
+							            </div>
+							            <div class="col-md-3 border text-center  py-2">
+							                <p class="h6 font-weight-normal">Deadline</p>
+							            </div>
+							            <div class="col-md border text-center  py-2">
+							                <p class="h6 font-weight-normal">Actions</p>
+							            </div>
+							        </div>
+
+							  </div>
+							</div>
+        
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous">
+    </script>
+    
+    <script>
+		
+		 const token = localStorage.getItem("token") 
+		 function getFormatDate(date)
+		   {
+			   return date.toDateString();
+			   
+		   }
+		   
+		   function getFormatTime(date)
+		   {
+			   let formatTime = "";
+			   if(date.getHours() == "0")
+			   {
+				   formatTime += "00:"
+			   }
+			   else
+			   {
+				   formatTime += date.getHours() + ":"
+			   }
+			   
+			   if(date.getMinutes() == "0")
+			   {
+				   formatTime += "00:"
+			   }
+			   else
+			   {
+				   formatTime += date.getMinutes() + ":"
+			   }
+			   
+			   if(date.getSeconds() == "0")
+			   {
+				   formatTime += "00"
+			   }
+			   else
+			   {
+				   formatTime += date.getSeconds()
+			   }
+			   
+			   return formatTime
+			   
+			   
+		   }
+		    async function getDataFromURL(url)
+		   {
+			  const data = await fetch(url, 
+			   {
+				   method : `GET`,
+				   headers: {
+						 'Content-Type' : `application/json`,
+						 'Authorization': `Bearer ${token}`
+				   }
+			    }) 
+			    .then(res => res.json())    //return res.json  which is json
+				.then(data =>{
+					  
+					  return data
+				      
+				 }).catch((error) => {
+					 
+					  console.log(error);   // error handling
+			     });
+			     
+			  return data;
+			     
+		   }
+		   
+		   
+		   function getFromStatus(status)
+		   {
+			   if(status == 'draft')
+			     return `  <p class="text-danger mx-0 font-italic">[Draft]<p/>
+			              </div>`
+			   
+			   if(status == 'submit')
+			      return  `<p class="text-success mx-0 font-italic">[Submitted]<p/>
+			             </div>`
+			      
+			   return '</div>'
+		   }
+		   
+		   function getActions(reviewStatus,paperId)
+		   {
+			   if(reviewStatus == "draft")
+		       {
+			     return `<div class="btn-group mx-3 my-3">
+						  <button class="btn btn-secondary btn-lg" type="button">
+						    actions
+						  </button>
+						  <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+						    <span class="visually-hidden">Toggle Dropdown</span>
+						  </button>
+					      <ul class="dropdown-menu">
+						    <li><a class="dropdown-item" href="/api/review/view?paperId=${paperId}&token=${token}">continue review</a></li>
+						    <li><a class="dropdown-item" onclick=clearReview(${paperId})>clear review</a></li>
+						    <li><hr class="dropdown-divider"></li>
+						    <div class="text-center">
+						      <li> <button type="button" onclick="declineReview(${paperId})" class="btn btn-outline-danger">decline to review</button> </li>
+						    </div>
+				         </ul>
+				      </div>`
+			   }
+			   
+			   if(reviewStatus == "new")
+			   {
+				   return `<div class="btn-group mx-3 my-3">
+						  <button class="btn btn-secondary btn-lg" type="button">
+						    actions
+						  </button>
+						  <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+						    <span class="visually-hidden">Toggle Dropdown</span>
+						  </button>
+					      <ul class="dropdown-menu">
+						    <li><a class="dropdown-item text-center" href="/api/review/view?paperId=${paperId}&token=${token}">Review</a></li>
+						    <li><hr class="dropdown-divider"></li>
+						    <div class="text-center">
+						      <li> <button type="button" onclick="declineReview(${paperId})" class="btn btn-outline-danger">decline to review</button> </li>
+						    </div>
+				         </ul>
+				      </div>`
+			   }
+			   
+			    if(reviewStatus == "submit")
+			   {
+				   return `<div class="btn-group mx-3 my-3">
+							  <button class="btn btn-secondary btn-lg" type="button">
+							    actions
+							  </button>
+							  <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+							    <span class="visually-hidden">Toggle Dropdown</span>
+							  </button>
+							  <ul class="dropdown-menu">
+								    
+								    <li><a class="dropdown-item" href="/api/review/view?paperId=${paperId}&token=${token}">Edit Submission</a></li>
+								    <li><hr class="dropdown-divider"></li>
+								    <div class="text-center">
+								    <li><a class="dropdown-item btn text-danger btn-outline-danger" onclick="deleteSubmission(${paperId})">Delete</a></li>
+								 
+								    </div>
+						       </ul>
+						</div>`
+			   }
+			   
+		   }
+		   
+		   
+		   async function setReviewDetails(review)
+		   {
+			   
+			  
+			  const element = document.getElementById('table')
+			  innerHTML = `<div class="row bg-light bg-gradient">
+				            <div class="col-md-1 border text-center  py-2">
+				                <p class="h6 font-weight-normal">Paper id</p>
+				            </div>
+				            <div class="col-md-6 border text-center  py-2">
+				                <p class="h6 font-weight-normal">Name</p>
+				            </div>
+				            <div class="col-md-3 border text-center  py-2">
+				                <p class="h6 font-weight-normal">Deadline</p>
+				            </div>
+				            <div class="col-md border text-center  py-2">
+				                <p class="h6 font-weight-normal">Actions</p>
+				            </div>
+				           </div>`
+				           
+				           
+			  for(let i =0;i<review.length;i++)
+			  {
+				  console.log(review[i])
+				  const paper = await getDataFromURL(`http://localhost:8080/api/get-paper?paperId=${review[i].id.paperId}`)
+				  console.log(paper)
+				  
+				  let deadline = getFormatDate(new Date(review[i].deadline)) + "  " + getFormatTime(new Date(review[i].deadline))
+                  let submissionTime = getFormatDate(new Date(review[i].submissionTime)) + "  " + getFormatTime(new Date(review[i].submissionTime))
+				  
+				 innerHTML +=  `<div class="row">
+		                          <div class="col-md-1 border px-1 py-2">
+		                            <p class="d-inline">#</p> <p class="h6 d-inline" type="number">${paper.id}</p><br><br>`
+		         
+		
+		         innerHTML += getFromStatus(review[i].reviewStatus)
+		                 
+				 innerHTML +=   `
+					             <div class="col-md-6 border py-2">
+					                <p class="h6 font-weight-normal">${paper.name}</p><br>
+					                <a href="/file/${paper.pdfLink}?token=${token}" target="_blank"><button class="btn btn-info mx-2">View PDF</button></a>
+					                <div class="dropdown d-inline">
+					                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					                    View Tags
+					                   </button>
+					                   <ul class="dropdown-menu bg-light">`
+		         paper.tags.forEach(tag => {
+					console.log(tag.name)
+				    innerHTML += ` <li class="p-1">${tag.name}</li>`
+			  	});
+						         
+		               
+		
+		           innerHTML += ` </ul>
+		                          </div>
+		                          </div>
+						            <div class="col-md-3 border py-2 text-center">
+						                <p class="h6 font-weight-normal">${deadline}</p>
+						            </div>
+						            
+						            <div class="col-md border py-2">`
+										
+						             
+					innerHTML += getActions(review[i].reviewStatus,paper.id)	             
+				
+					innerHTML += ` </div>
+						        </div>`
+			  }
+			  
+			  element.innerHTML = innerHTML
+			  
+			   
+		   }
+		   
+		   
+		   
+		   async function displayReview()
+		   {
+			  const data = await getDataFromURL('http://localhost:8080/api/get-to-review')
+			  setReviewDetails(data)
+		   }
+		   
+		   displayReview()
+		   
+		  async function declineReview(paperId)
+		  {
+
+			  if(confirm(`Are you confirm that you wanted to decline to review for paper with Id = ${paperId}`))
+			  {
+				  const url = `/api/review/decline?paperId=${paperId}&token=${token}`
+			      const review = await getDataFromURL(url)
+			      window.location.href = `/api/review-center?token=${token}`
+			  }
+		  }
+		  
+		  async function clearReview(paperId)
+		   {
+			  if(confirm(`Are you sure want to clear all the review data associated with Id = ${paperId}`))
+			  {
+				   const url = `http://localhost:8080/api/review/clear?paperId=${paperId}`
+			       getDataFromURL(url)
+			       //again for reload
+			       window.location.href = `http://localhost:8080/api/drafts?token=${token}`
+			  }
+			 
+			 
+		   }
+		   
+		    async function deleteSubmission(paperId)
+		   {
+			   if(confirm(`Are you sure want to remove the submission for Id = ${paperId}`))
+			  {
+				   const url = `/api/delete-submission?paperId=${paperId}&token=${token}`
+				   const review = await getDataFromURL(url)
+				   window.location.href = `/api/submissions?token=${token}`
+			   }
+		   }
+		  
+		   
+		   document.getElementById("profile").setAttribute("href", `/api/profile?token=${token}`);
+		   document.getElementById("styles").setAttribute("href", `/css/styles.css?token=${token}`);
+		   document.getElementById("side-review-center").setAttribute("href", `/api/review-center?token=${token}`);
+		   document.getElementById("side-drafts").setAttribute("href", `/api/drafts?token=${token}`);
+		   document.getElementById("side-submissions").setAttribute("href", `/api/submissions?token=${token}`);
+		   document.getElementById("dashboard").setAttribute("href", `/api/dashboard?token=${token}`);
+           document.getElementById("logoImage").setAttribute("src", `/images/logoww.png?token=${token}`);
+		   
+		
+	</script>
+
+
+</body>
+
+
+</html>
+
